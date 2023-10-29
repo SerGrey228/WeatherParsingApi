@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+    db:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: 1234
+            POSTGRES_USER: postgres
+            POSTGRES_DB: citydb
+        ports:
+            - 5432:5432
+        volumes:
+            - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    api:
+        image: weather_api
+        restart: always
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        ports:
+            - 5000:5000
+        links:
+            - db
+
+
