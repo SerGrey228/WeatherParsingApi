@@ -8,9 +8,9 @@ namespace WeatherApi
     {
         public async Task SaveHistory(string data, string time, string cityName, string weather)
         {
-            var connString = "Host=localhost;Username=postgres;Password=1234;Database=citydb";
+            ConnectDB connect = new ConnectDB();
 
-            var dataSourceBuilder = new NpgsqlDataSourceBuilder(connString);
+            var dataSourceBuilder = new NpgsqlDataSourceBuilder(connect.GetConnect());
             var dataSource = dataSourceBuilder.Build();
 
             var conn = await dataSource.OpenConnectionAsync();
@@ -25,9 +25,9 @@ namespace WeatherApi
 
         public string GetHistory(string data, string cityName)
         {
-            var connectionDataBase = "Host=localhost;Username=postgres;Password=1234;Database=citydb";
+            ConnectDB connect = new ConnectDB();
 
-            using var connection = new NpgsqlConnection(connectionDataBase);
+            using var connection = new NpgsqlConnection(connect.GetConnect());
 
             connection.Open();
 
